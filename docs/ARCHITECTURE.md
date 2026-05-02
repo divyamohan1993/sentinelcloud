@@ -1,6 +1,6 @@
 # SentinelCloud Architecture Specification
 
-**Version:** 1.0 — May 2026
+**Version:** 1.0 - May 2026
 **Author:** Rohit Kumar (BTech CSE Cloud Computing, GF202220522)
 **Mentor / Build Partner:** Divya Mohan, dmj.one
 **Live URL:** https://sentinelcloud.dmj.one
@@ -19,18 +19,18 @@ Each gap maps to a concrete module. The capstone defends every claim with a meas
 
 | # | Gap reported in literature (AIOpsLab, ITBench, RCAEval, AutoSRE benchmarks) | SentinelCloud module |
 |---|---|---|
-| G1 | Single-LLM baselines hallucinate commands, fabricate flags. | **Tool Selector Critic** — smaller verifier LLM scores every tool call against a tool-card schema before dispatch. |
-| G2 | Brittle root-cause analysis: LLMs correlate text but don't ground in topology. | **Topology-Aware Reasoner** — joins logs+metrics+traces over a service-graph (Neo4j-style adjacency in Firestore). |
-| G3 | "Debate" agents collapse into consensus (groupthink). | **Adversarial Debate** — one agent is contractually pinned to *Devil's Advocate* role with a separate system prompt and a dissent quota. |
-| G4 | No blast-radius awareness — agents propose changes that cascade. | **Blast Radius Calculator** — BFS over dependency graph; action is gated by max blast score. |
-| G5 | No counterfactual reasoning — "what if we did X instead?" | **Counterfactual Memory** — every accepted action is paired with the rejected alternatives and outcome predictions; recalled by similarity for next incident. |
-| G6 | Policy gates are regex; can't catch semantic violations. | **Semantic Policy Engine** — plain-English constitution; violations validated by a dedicated policy-judge LLM, then cached as compiled rules. |
-| G7 | Reproducibility crisis — benchmarks score <40 % on real traces. | **Deterministic Scenario Engine** — every demo scenario is a seeded fixture; runs are reproducible byte-for-byte. |
-| G8 | FinOps recommendations ignore lifecycle / spot-eviction risk. | **Cost-Risk Optimizer** — Pareto frontier over price × eviction-probability × workload tolerance. |
-| G9 | No learning loop — same incidents repeat. | **Episodic Memory + PRM** — process-reward model logs per-step quality; future runs retrieve top-k past episodes. |
-| G10 | Confidence is uncalibrated; agents act when they shouldn't. | **Confidence Calibration Gate** — actions auto-execute only above per-action-class threshold; below = human-in-the-loop summary. |
-| G11 | Shift-left security is reactive, not preventive. | **WAF Rule Synthesizer** — given a CVE, drafts a ModSecurity / Cloud Armor rule and validates it against a replay corpus. |
-| G12 | Multimodal ingestion is talked about but rarely implemented. | **Multimodal Ingestor** — OTLP traces, JSON logs, Prometheus metrics, GitHub PR diffs, Slack threads, all normalized to a unified `Signal` envelope. |
+| G1 | Single-LLM baselines hallucinate commands, fabricate flags. | **Tool Selector Critic** - smaller verifier LLM scores every tool call against a tool-card schema before dispatch. |
+| G2 | Brittle root-cause analysis: LLMs correlate text but don't ground in topology. | **Topology-Aware Reasoner** - joins logs+metrics+traces over a service-graph (Neo4j-style adjacency in Firestore). |
+| G3 | "Debate" agents collapse into consensus (groupthink). | **Adversarial Debate** - one agent is contractually pinned to *Devil's Advocate* role with a separate system prompt and a dissent quota. |
+| G4 | No blast-radius awareness - agents propose changes that cascade. | **Blast Radius Calculator** - BFS over dependency graph; action is gated by max blast score. |
+| G5 | No counterfactual reasoning - "what if we did X instead?" | **Counterfactual Memory** - every accepted action is paired with the rejected alternatives and outcome predictions; recalled by similarity for next incident. |
+| G6 | Policy gates are regex; can't catch semantic violations. | **Semantic Policy Engine** - plain-English constitution; violations validated by a dedicated policy-judge LLM, then cached as compiled rules. |
+| G7 | Reproducibility crisis - benchmarks score <40 % on real traces. | **Deterministic Scenario Engine** - every demo scenario is a seeded fixture; runs are reproducible byte-for-byte. |
+| G8 | FinOps recommendations ignore lifecycle / spot-eviction risk. | **Cost-Risk Optimizer** - Pareto frontier over price × eviction-probability × workload tolerance. |
+| G9 | No learning loop - same incidents repeat. | **Episodic Memory + PRM** - process-reward model logs per-step quality; future runs retrieve top-k past episodes. |
+| G10 | Confidence is uncalibrated; agents act when they shouldn't. | **Confidence Calibration Gate** - actions auto-execute only above per-action-class threshold; below = human-in-the-loop summary. |
+| G11 | Shift-left security is reactive, not preventive. | **WAF Rule Synthesizer** - given a CVE, drafts a ModSecurity / Cloud Armor rule and validates it against a replay corpus. |
+| G12 | Multimodal ingestion is talked about but rarely implemented. | **Multimodal Ingestor** - OTLP traces, JSON logs, Prometheus metrics, GitHub PR diffs, Slack threads, all normalized to a unified `Signal` envelope. |
 
 ## 2. Three-Layer Brain (mapped to code)
 
@@ -69,7 +69,7 @@ Each gap maps to a concrete module. The capstone defends every claim with a meas
 | Web framework | Next.js 15 (App Router) + React 19 | Server actions, RSC, single deployable artifact. |
 | Style | Tailwind CSS v4, shadcn-pattern components, framer-motion | Production polish, motion-reduced fallback. |
 | Language | TypeScript 5.5 (strict) | Single-language stack reduces cold-start surface. |
-| LLM gateway | Vertex AI Gemini 2.5 Pro (default), Anthropic Claude 4.7 Opus (optional), local-stub (fallback) | Vertex AI uses ADC — no key management on free tier. Claude optional via Secret Manager. Stub mode keeps the demo working when no LLM is reachable. |
+| LLM gateway | Vertex AI Gemini 2.5 Pro (default), Anthropic Claude 4.7 Opus (optional), local-stub (fallback) | Vertex AI uses ADC - no key management on free tier. Claude optional via Secret Manager. Stub mode keeps the demo working when no LLM is reachable. |
 | Embeddings | Vertex AI text-embedding-005 | Same auth path as Gemini. |
 | Vector + Graph store | Firestore with embedding field + adjacency arrays | Single managed dependency. |
 | Streaming | SSE (Server-Sent Events) | Stable on Cloud Run; simpler than WS. |
@@ -139,11 +139,11 @@ Orchestrator state machine: `INGEST → ANALYZE → DEBATE → SAFETY → STRATE
 
 ## 8. Trust Guardrails (Kill Switch)
 
-- **Semantic Validation** — Verifier predicts post-action state; Strategist must explain delta within tolerance.
-- **Human-on-the-Loop** — every CRITICAL action emits a Slack-style summary; UI shows "Confirm / Deny / Modify".
-- **Immutable Policy Gates** — constitution stored in Firestore, signed at write-time; cannot be overridden by an agent.
-- **Tool Allowlist** — explicit registry; deny-by-default.
-- **Rate limit** — agents may not run more than N actions / min on the same target.
+- **Semantic Validation** - Verifier predicts post-action state; Strategist must explain delta within tolerance.
+- **Human-on-the-Loop** - every CRITICAL action emits a Slack-style summary; UI shows "Confirm / Deny / Modify".
+- **Immutable Policy Gates** - constitution stored in Firestore, signed at write-time; cannot be overridden by an agent.
+- **Tool Allowlist** - explicit registry; deny-by-default.
+- **Rate limit** - agents may not run more than N actions / min on the same target.
 
 ## 9. Privacy / Security Posture
 
@@ -155,10 +155,10 @@ Orchestrator state machine: `INGEST → ANALYZE → DEBATE → SAFETY → STRATE
 
 ## 10. Build Sequence (parallel tracks)
 
-1. **Track A — UI** — pages, components, animations, dashboard.
-2. **Track B — Orchestrator + Agents** — state machine, LLM gateway, agent prompts.
-3. **Track C — Scenarios + Knowledge Base** — fixture incidents, RAG seed data, blast-radius graphs.
-4. **Track D — Infra + Deploy** — Dockerfile, Cloud Run, domain mapping, GitHub Actions.
-5. **Track E — Docs + Capstone Report** — README, architecture, gap matrix, results.
+1. **Track A - UI** - pages, components, animations, dashboard.
+2. **Track B - Orchestrator + Agents** - state machine, LLM gateway, agent prompts.
+3. **Track C - Scenarios + Knowledge Base** - fixture incidents, RAG seed data, blast-radius graphs.
+4. **Track D - Infra + Deploy** - Dockerfile, Cloud Run, domain mapping, GitHub Actions.
+5. **Track E - Docs + Capstone Report** - README, architecture, gap matrix, results.
 
 Tracks A–C share `web/`. Track D writes `Dockerfile`, `cloudbuild.yaml`, `.github/workflows/`. Track E writes `docs/` and `README.md`.
