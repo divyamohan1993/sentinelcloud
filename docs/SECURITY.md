@@ -108,7 +108,7 @@ curl -sSI https://sentinelcloud.dmj.one/ | grep -Ei 'strict-transport|content-se
 ## Authentication and authorization
 
 - **Public demo is read-only.** Anyone can browse `/`, `/architecture`, `/research`, `/docs`, and run a synthetic scenario from the gallery. No write to a real cluster is possible from a public session.
-- **Admin routes require Google sign-in.** Firebase Auth issues an ID token; the API verifies it server-side with the Firebase Admin SDK. The verified email is matched against `SENTINEL_ADMIN_EMAILS` (Secret Manager). Default admin: `divyamohan1993@gmail.com`.
+- **Admin routes require Google sign-in.** Firebase Auth issues an ID token; the API verifies it server-side with the Firebase Admin SDK. The verified email is matched against `SENTINEL_ADMIN_EMAILS` (Secret Manager). Default admin: `<owner-email>`.
 - **Connector mode** is admin-gated. Pointing SentinelCloud at a real GCP project, K8s cluster, or GitHub repo requires a service-account binding configured by an admin. Least-privilege roles only; no project-wide editor or owner.
 - **Deny by default.** Every API route declares its required role; the route handler short-circuits with a generic 404 for unauthenticated callers to avoid surface enumeration.
 - **Tool allowlist.** Even an authenticated admin cannot invoke a tool that is not in the registry. Tool cards are signed at write-time.

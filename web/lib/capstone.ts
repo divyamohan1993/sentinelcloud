@@ -35,7 +35,7 @@ export const VIVA_QUESTIONS: Array<{ q: string; a: string }> = [
   },
   {
     q: 'How will your system handle scalability if users increase from 100 to 10,000?',
-    a: 'Cloud Run scales horizontally with no code change. Each request runs in its own container so concurrent runs do not block one another. Vertex AI Gemini quotas are the practical ceiling; default capacity in dmjone is well above ten thousand requests per minute on Flash. The deterministic stub absorbs any quota exhaustion automatically. Firestore writes are per-episode, not per-step, and stay under a thousand writes per minute even at 10x scale. The SSE channel is one connection per active run; we never multiplex, so back-pressure is bounded. For peak protection, a token-bucket rate limiter at the API route caps runs per IP per minute, and the policy constitution itself caps actions per target per minute as a defence-in-depth layer. Static pages are cached at the edge, so the read-heavy path never touches the origin.',
+    a: 'Cloud Run scales horizontally with no code change. Each request runs in its own container so concurrent runs do not block one another. Vertex AI Gemini quotas are the practical ceiling; default capacity in our GCP project is well above ten thousand requests per minute on Flash. The deterministic stub absorbs any quota exhaustion automatically. Firestore writes are per-episode, not per-step, and stay under a thousand writes per minute even at 10x scale. The SSE channel is one connection per active run; we never multiplex, so back-pressure is bounded. For peak protection, a token-bucket rate limiter at the API route caps runs per IP per minute, and the policy constitution itself caps actions per target per minute as a defence-in-depth layer. Static pages are cached at the edge, so the read-heavy path never touches the origin.',
   },
   {
     q: 'What security measures have you implemented (authentication, data protection, etc.)?',
@@ -503,12 +503,12 @@ Actuation  (web/lib/actuators)
     title: 'Deployment',
     body: ['The deployable artefact is a single Docker image on Google Cloud Run. The deploy script is a single gcloud command.'],
     code: `gcloud run deploy sentinelcloud \\
-  --source . --region asia-east1 --project dmjone \\
+  --source . --region asia-east1 --project <your-gcp-project> \\
   --min-instances 0 --max-instances 10 \\
   --memory 2Gi --cpu 2 --port 8080 \\
   --allow-unauthenticated \\
-  --service-account=107722137045-compute@developer.gserviceaccount.com \\
-  --set-env-vars="GOOGLE_CLOUD_PROJECT=dmjone,SENTINEL_REGION=asia-east1,\\
+  --service-account=<project-number>-compute@developer.gserviceaccount.com \\
+  --set-env-vars="GOOGLE_CLOUD_PROJECT=<your-gcp-project>,SENTINEL_REGION=asia-east1,\\
 SENTINEL_PACE_PHASE_MS=400,SENTINEL_PACE_TURN_MS=200,\\
 SENTINEL_VERTEX_LOCATION=us-central1,\\
 SENTINEL_GEMINI_MODEL=gemini-2.5-flash,\\

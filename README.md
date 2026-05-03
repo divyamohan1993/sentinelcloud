@@ -175,7 +175,7 @@ Prerequisites:
 
 ```bash
 gcloud auth login
-gcloud config set project dmjone
+gcloud config set project <your-gcp-project>
 gcloud services enable run.googleapis.com cloudbuild.googleapis.com \
   artifactregistry.googleapis.com firestore.googleapis.com \
   secretmanager.googleapis.com aiplatform.googleapis.com
@@ -187,7 +187,7 @@ Build and deploy from source. Cloud Build picks up the root Dockerfile automatic
 gcloud run deploy sentinelcloud \
   --source . \
   --region asia-east1 \
-  --project dmjone \
+  --project <your-gcp-project> \
   --platform managed \
   --allow-unauthenticated \
   --min-instances 0 \
@@ -197,7 +197,7 @@ gcloud run deploy sentinelcloud \
   --concurrency 80 \
   --timeout 300 \
   --port 8080 \
-  --set-env-vars "GOOGLE_CLOUD_PROJECT=dmjone,SENTINEL_REGION=asia-east1"
+  --set-env-vars "GOOGLE_CLOUD_PROJECT=<your-gcp-project>,SENTINEL_REGION=asia-east1"
 ```
 
 Map a custom domain (the live deployment uses `sentinelcloud.dmj.one`):
@@ -245,11 +245,11 @@ Required environment variables:
 
 | Variable | Purpose | Default |
 |---|---|---|
-| `GOOGLE_CLOUD_PROJECT` | Target GCP project for Vertex AI, Firestore, Cloud Logging, and the connector. | `dmjone` |
+| `GOOGLE_CLOUD_PROJECT` | Target GCP project for Vertex AI, Firestore, Cloud Logging, and the connector. | `<your-gcp-project>` |
 | `SENTINEL_REGION` | Cloud Run region and Vertex AI region. | `asia-east1` |
 | `ANTHROPIC_API_KEY` | Optional Claude key. Pulled from Secret Manager in production. Empty disables Claude. | unset |
 | `SENTINEL_FORCE_STUB` | When truthy, bypasses all LLM providers and runs the deterministic stub. Useful for CI and reproducibility tests. | unset |
-| `SENTINEL_ADMIN_EMAILS` | Comma-separated list of Google sign-in emails allowed to trigger write actions in connector mode. | `divyamohan1993@gmail.com` |
+| `SENTINEL_ADMIN_EMAILS` | Comma-separated list of Google sign-in emails allowed to trigger write actions in connector mode. | `<owner-email>` |
 | `SENTINEL_DISABLE_VERTEX` | Set truthy to disable Vertex AI even when ADC is present. | unset |
 | `SENTINEL_DISABLE_CLAUDE` | Set truthy to disable Claude even when a key is present. | unset |
 | `SENTINEL_GEMINI_MODEL` | Vertex Gemini model id. | `gemini-2.5-flash` |
@@ -264,27 +264,27 @@ gcloud iam service-accounts create sentinelcloud-runner \
   --display-name "SentinelCloud Cloud Run runner"
 
 # Vertex AI for LLM calls
-gcloud projects add-iam-policy-binding dmjone \
-  --member "serviceAccount:sentinelcloud-runner@dmjone.iam.gserviceaccount.com" \
+gcloud projects add-iam-policy-binding <your-gcp-project> \
+  --member "serviceAccount:sentinelcloud-runner@<your-gcp-project>.iam.gserviceaccount.com" \
   --role roles/aiplatform.user
 
 # Firestore for memory and policies
-gcloud projects add-iam-policy-binding dmjone \
-  --member "serviceAccount:sentinelcloud-runner@dmjone.iam.gserviceaccount.com" \
+gcloud projects add-iam-policy-binding <your-gcp-project> \
+  --member "serviceAccount:sentinelcloud-runner@<your-gcp-project>.iam.gserviceaccount.com" \
   --role roles/datastore.user
 
 # Cloud Logging and Trace for observability
-gcloud projects add-iam-policy-binding dmjone \
-  --member "serviceAccount:sentinelcloud-runner@dmjone.iam.gserviceaccount.com" \
+gcloud projects add-iam-policy-binding <your-gcp-project> \
+  --member "serviceAccount:sentinelcloud-runner@<your-gcp-project>.iam.gserviceaccount.com" \
   --role roles/logging.logWriter
 
-gcloud projects add-iam-policy-binding dmjone \
-  --member "serviceAccount:sentinelcloud-runner@dmjone.iam.gserviceaccount.com" \
+gcloud projects add-iam-policy-binding <your-gcp-project> \
+  --member "serviceAccount:sentinelcloud-runner@<your-gcp-project>.iam.gserviceaccount.com" \
   --role roles/cloudtrace.agent
 
 gcloud run services update sentinelcloud \
   --region asia-east1 \
-  --service-account sentinelcloud-runner@dmjone.iam.gserviceaccount.com
+  --service-account sentinelcloud-runner@<your-gcp-project>.iam.gserviceaccount.com
 ```
 
 Connector mode follows the four-phase rollout from the project plan:

@@ -50,7 +50,7 @@ First public release.
   layer-7 anomaly. Each fixture is byte-stable.
 
 ### Deployment
-- Cloud Run, asia-east1, project dmjone, min-instances 0.
+- Cloud Run, asia-east1, scale-to-zero.
 - Production domain mapping for sentinelcloud.dmj.one (DNS pending).
 - GitHub Actions CI for typecheck, build, and security scan.
 - Zero open Dependabot alerts at release.

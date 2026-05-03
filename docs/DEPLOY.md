@@ -3,7 +3,7 @@
 Target: a fresh fork running at a public URL on Google Cloud Run in under 15 minutes.
 
 Live reference deploy: https://sentinelcloud.dmj.one
-Project: `dmjone`. Runtime region: `asia-east1`. Vertex AI region: `us-central1`.
+Project: `<your-gcp-project>`. Runtime region: `asia-east1`. Vertex AI region: `us-central1`.
 
 ---
 
@@ -21,7 +21,7 @@ Authenticate once:
 ```bash
 gcloud auth login
 gcloud auth application-default login
-gcloud config set project dmjone
+gcloud config set project <your-gcp-project>
 gcloud config set run/region asia-east1
 ```
 
@@ -35,7 +35,7 @@ From the repo root:
 gcloud run deploy sentinelcloud \
   --source . \
   --region asia-east1 \
-  --project dmjone \
+  --project <your-gcp-project> \
   --min-instances 0 \
   --max-instances 10 \
   --memory 1Gi \
@@ -58,7 +58,7 @@ Use this path the first time you set up the project, or when bringing up a fresh
 
 ```bash
 gcloud auth login
-gcloud config set project dmjone
+gcloud config set project <your-gcp-project>
 gcloud config set run/region asia-east1
 gcloud auth application-default login
 ```
@@ -75,7 +75,7 @@ gcloud services enable \
   aiplatform.googleapis.com \
   firestore.googleapis.com \
   secretmanager.googleapis.com \
-  --project dmjone
+  --project <your-gcp-project>
 ```
 
 Run once per project. Idempotent.
@@ -89,7 +89,7 @@ gcloud artifacts repositories create cloud-run-source-deploy \
   --repository-format=docker \
   --location=asia-east1 \
   --description="Cloud Run source deploys" \
-  --project dmjone
+  --project <your-gcp-project>
 ```
 
 ### 4. Vertex AI region
@@ -103,7 +103,7 @@ No setup command is needed; the API was enabled in step 2.
 Check current state:
 
 ```bash
-gcloud firestore databases describe --database='(default)' --project dmjone
+gcloud firestore databases describe --database='(default)' --project <your-gcp-project>
 ```
 
 If the command errors with `NOT_FOUND`, create the database:
@@ -112,7 +112,7 @@ If the command errors with `NOT_FOUND`, create the database:
 gcloud firestore databases create \
   --location=asia-south1 \
   --type=firestore-native \
-  --project dmjone
+  --project <your-gcp-project>
 ```
 
 `asia-south1` keeps user data inside India, aligning with DPDP Act 2023 residency. Cross-region read from `asia-east1` adds about 40 ms; acceptable for the demo workload.
@@ -125,37 +125,37 @@ Create the secrets (skip `ANTHROPIC_API_KEY` if you do not have one):
 
 ```bash
 printf "%s" "sk-ant-your-real-key" | gcloud secrets create ANTHROPIC_API_KEY \
-  --data-file=- --replication-policy=automatic --project dmjone
+  --data-file=- --replication-policy=automatic --project <your-gcp-project>
 
-printf "%s" "divyamohan1993@gmail.com,you@example.com" | gcloud secrets create SENTINEL_ADMIN_EMAILS \
-  --data-file=- --replication-policy=automatic --project dmjone
+printf "%s" "<owner-email>,you@example.com" | gcloud secrets create SENTINEL_ADMIN_EMAILS \
+  --data-file=- --replication-policy=automatic --project <your-gcp-project>
 ```
 
 Grant the Cloud Run runtime service account read access:
 
 ```bash
-PROJECT_NUMBER=$(gcloud projects describe dmjone --format='value(projectNumber)')
+PROJECT_NUMBER=$(gcloud projects describe <your-gcp-project> --format='value(projectNumber)')
 RUNTIME_SA="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com"
 
 gcloud secrets add-iam-policy-binding ANTHROPIC_API_KEY \
   --member="serviceAccount:${RUNTIME_SA}" \
   --role="roles/secretmanager.secretAccessor" \
-  --project dmjone
+  --project <your-gcp-project>
 
 gcloud secrets add-iam-policy-binding SENTINEL_ADMIN_EMAILS \
   --member="serviceAccount:${RUNTIME_SA}" \
   --role="roles/secretmanager.secretAccessor" \
-  --project dmjone
+  --project <your-gcp-project>
 ```
 
 Grant Firestore and Vertex AI access to the same runtime account:
 
 ```bash
-gcloud projects add-iam-policy-binding dmjone \
+gcloud projects add-iam-policy-binding <your-gcp-project> \
   --member="serviceAccount:${RUNTIME_SA}" \
   --role="roles/datastore.user"
 
-gcloud projects add-iam-policy-binding dmjone \
+gcloud projects add-iam-policy-binding <your-gcp-project> \
   --member="serviceAccount:${RUNTIME_SA}" \
   --role="roles/aiplatform.user"
 ```
@@ -166,7 +166,7 @@ gcloud projects add-iam-policy-binding dmjone \
 gcloud run deploy sentinelcloud \
   --source . \
   --region asia-east1 \
-  --project dmjone \
+  --project <your-gcp-project> \
   --min-instances 0 \
   --max-instances 10 \
   --memory 1Gi \
@@ -183,7 +183,7 @@ If you skipped the Anthropic secret, drop it from `--set-secrets`:
 gcloud run deploy sentinelcloud \
   --source . \
   --region asia-east1 \
-  --project dmjone \
+  --project <your-gcp-project> \
   --min-instances 0 \
   --max-instances 10 \
   --memory 1Gi \
@@ -203,7 +203,7 @@ gcloud beta run domain-mappings create \
   --service sentinelcloud \
   --domain sentinelcloud.dmj.one \
   --region asia-east1 \
-  --project dmjone
+  --project <your-gcp-project>
 ```
 
 The command prints a CNAME or A/AAAA record set. Copy the records into your DNS provider for `dmj.one`. Cloud Run provisions a managed TLS certificate within 15 to 60 minutes after DNS resolves. Verify with:
@@ -212,7 +212,7 @@ The command prints a CNAME or A/AAAA record set. Copy the records into your DNS 
 gcloud beta run domain-mappings describe \
   --domain sentinelcloud.dmj.one \
   --region asia-east1 \
-  --project dmjone
+  --project <your-gcp-project>
 ```
 
 `status.conditions[].type=Ready` reports `True` once the certificate is live.
@@ -247,11 +247,11 @@ A degraded dependency returns HTTP 200 with `status: "degraded"` and a non-`ok` 
 ```bash
 gcloud monitoring uptime create sentinelcloud-health \
   --resource-type=uptime-url \
-  --resource-labels=host=sentinelcloud.dmj.one,project_id=dmjone \
+  --resource-labels=host=sentinelcloud.dmj.one,project_id=<your-gcp-project> \
   --path=/api/health \
   --period=60s \
   --timeout=10s \
-  --project dmjone
+  --project <your-gcp-project>
 ```
 
 ---
@@ -264,7 +264,7 @@ List recent revisions:
 gcloud run revisions list \
   --service sentinelcloud \
   --region asia-east1 \
-  --project dmjone \
+  --project <your-gcp-project> \
   --limit 10 \
   --format='table(name, active, creationTimestamp.date(), servingState)'
 ```
@@ -274,7 +274,7 @@ Send 100% of traffic to the previous known-good revision (replace `sentinelcloud
 ```bash
 gcloud run services update-traffic sentinelcloud \
   --region asia-east1 \
-  --project dmjone \
+  --project <your-gcp-project> \
   --to-revisions=sentinelcloud-00041-xyz=100
 ```
 
@@ -283,7 +283,7 @@ Promote the latest revision back when you have a fix:
 ```bash
 gcloud run services update-traffic sentinelcloud \
   --region asia-east1 \
-  --project dmjone \
+  --project <your-gcp-project> \
   --to-latest
 ```
 
@@ -292,7 +292,7 @@ Canary 10% of traffic to a new revision before going to 100%:
 ```bash
 gcloud run services update-traffic sentinelcloud \
   --region asia-east1 \
-  --project dmjone \
+  --project <your-gcp-project> \
   --to-revisions=sentinelcloud-00041-xyz=90,sentinelcloud-00042-abc=10
 ```
 
