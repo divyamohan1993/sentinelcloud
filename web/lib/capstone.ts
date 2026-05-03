@@ -10,9 +10,8 @@ export const COVER = {
   studentName: 'Rohit Kumar',
   registrationNumber: 'GF202220522',
   semester: '8th Semester',
-  // Left blank deliberately. The student's assigned faculty mentor fills this in.
-  mentorName: '',
-  mentorAffiliation: '',
+  mentorName: 'Dr. Kritika Rana',
+  mentorAffiliation: 'Yogananda School of AI, Computers and Data Sciences',
   school: 'Yogananda School of AI, Computers and Data Sciences',
   university: 'Shoolini University of Biotechnology and Management Sciences',
   location: 'Solan, H.P., India',

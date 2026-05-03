@@ -156,7 +156,7 @@ function buildDocument(): Document {
   blocks.push(p(`Registration Number: ${COVER.registrationNumber}`, {}));
   blocks.push(p(`Course with Specialization: BTech CSE - Cloud Computing`, {}));
   blocks.push(p(`Semester: ${COVER.semester}`, {}));
-  blocks.push(p(`Capstone Mentor: ____________________________`, {}));
+  blocks.push(p(`Capstone Mentor: ${COVER.mentorName}`, {}));
   blocks.push(p(`Submission: ${COVER.submission}`, {}));
   blocks.push(p('', { spacing: { before: 600, after: 0 } }));
   // Template uses upper-case for the institution block.

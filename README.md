@@ -2,7 +2,7 @@
   SentinelCloud
   BTech CSE Cloud Computing Capstone, Shoolini University, GF202220522
   Author: Rohit Kumar
-  Capstone Mentor:
+  Capstone Mentor: Dr. Kritika Rana
   Live: https://sentinelcloud.dmj.one
 -->
 
@@ -13,7 +13,7 @@
 - Live demo: https://sentinelcloud.dmj.one
 - Source: https://github.com/Code-with-ME-Rohit/sentinelcloud
 - Capstone artifact: BTech CSE (Cloud Computing), Shoolini University, GF202220522
-- Capstone Mentor:
+- Capstone Mentor: Dr. Kritika Rana
 
 SentinelCloud closes the SRE loop end to end: *observe, diagnose, debate, decide, act, verify, learn*. It is a multi-agent system that runs on Cloud Run, ships in one Docker image, and proves every claim with a measurable KPI. The public site runs the full pipeline on simulated-but-realistic telemetry so a reviewer can press one button and watch agents argue, gate, act, and then write their own post-mortem.
 
@@ -367,7 +367,7 @@ Every directory has a single owner module so the import graph stays a tree, not 
 
 **Rohit Kumar** (GF202220522), BTech Computer Science and Engineering, specialisation in Cloud Computing, Shoolini University, Solan, H.P., India. Capstone submission, May 2026.
 
-**Capstone Mentor.** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+**Capstone Mentor.** Dr. Kritika Rana.
 
 If you use SentinelCloud in your own research or coursework, please cite the capstone:
 

@@ -3,7 +3,7 @@
 **Author:** Rohit Kumar (Roll No. GF202220522)
 **Programme:** BTech in Computer Science and Engineering, Cloud Computing specialisation
 **Institution:** Yogananda School of AI, Computers and Data Sciences, Shoolini University, Solan, H.P.
-**Capstone Mentor:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+**Capstone Mentor:** Dr. Kritika Rana
 **Submission Window:** May 2026
 **Live Artifact:** https://sentinelcloud.dmj.one
 **Source of Truth:** `/mnt/experiments/rohit-kumar-capstone`
@@ -993,7 +993,7 @@ This report is the formal capstone document for the BTech Computer Science and E
 **Roll Number:** GF202220522
 **Programme:** BTech CSE, Cloud Computing specialisation
 **Institution:** Shoolini University, Solan, H.P.
-**Capstone Mentor:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+**Capstone Mentor:** Dr. Kritika Rana
 **Submission Window:** May 2026
 **Live Artefact:** https://sentinelcloud.dmj.one
 **Source Repository:** https://github.com/Code-with-ME-Rohit/sentinelcloud

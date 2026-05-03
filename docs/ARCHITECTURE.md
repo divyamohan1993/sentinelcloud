@@ -2,7 +2,7 @@
 
 **Version:** 1.0 - May 2026
 **Author:** Rohit Kumar (BTech CSE Cloud Computing, GF202220522)
-**Capstone Mentor:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+**Capstone Mentor:** Dr. Kritika Rana
 **Live URL:** https://sentinelcloud.dmj.one
 
 ---

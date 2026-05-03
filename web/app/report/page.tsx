@@ -135,7 +135,7 @@ export default function ReportPage() {
               <dt className="text-[var(--color-fg-3)]">Registration Number</dt><dd className="font-mono">{COVER.registrationNumber}</dd>
               <dt className="text-[var(--color-fg-3)]">Course with Specialization</dt><dd>BTech CSE - Cloud Computing</dd>
               <dt className="text-[var(--color-fg-3)]">Semester</dt><dd>{COVER.semester}</dd>
-              <dt className="text-[var(--color-fg-3)]">Capstone Mentor</dt><dd className="text-[var(--color-fg-3)] italic">_________________________________</dd>
+              <dt className="text-[var(--color-fg-3)]">Capstone Mentor</dt><dd>{COVER.mentorName}</dd>
               <dt className="text-[var(--color-fg-3)]">Submission</dt><dd>{COVER.submission}</dd>
             </dl>
             <div className="mt-12 text-[13px] text-[var(--color-fg-2)] uppercase tracking-wider leading-relaxed">

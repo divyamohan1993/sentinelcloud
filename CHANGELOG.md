@@ -65,4 +65,4 @@ First public release.
 ### Author
 Rohit Kumar (GF202220522), BTech CSE Cloud Computing,
 Yogananda School of AI, Computers and Data Sciences, Shoolini University.
-Capstone Mentor: _____________________.
+Capstone Mentor: Dr. Kritika Rana.
