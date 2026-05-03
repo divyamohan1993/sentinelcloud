@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+title: "SentinelCloud: A Closed-Loop Multi-Agent System for Autonomous Cloud DevOps"
+message: "If you use this work, please cite it as below."
+type: software
+authors:
+  - family-names: Kumar
+    given-names: Rohit
+    affiliation: "School of Computing Science and Engineering, Galgotias University"
+    note: "BTech CSE Cloud Computing, Roll No. GF202220522"
+  - family-names: Mohan
+    given-names: Divya
+    affiliation: "dmj.one"
+    email: contact@dmj.one
+repository-code: "https://github.com/divyamohan1993/sentinelcloud"
+url: "https://sentinelcloud.dmj.one"
+license: MIT
+date-released: 2026-05-03
+version: "1.0.0"
+keywords:
+  - AIOps
+  - autonomous DevOps
+  - multi-agent systems
+  - large language models
+  - incident response
+  - FinOps
+  - cloud security
+  - capstone
+  - BTech CSE
+preferred-citation:
+  type: software
+  title: "SentinelCloud: A Closed-Loop Multi-Agent System for Autonomous Cloud DevOps"
+  authors:
+    - family-names: Kumar
+      given-names: Rohit
+    - family-names: Mohan
+      given-names: Divya
+  year: 2026
+  url: "https://sentinelcloud.dmj.one"
+  notes: "BTech CSE Cloud Computing capstone, Galgotias University, May 2026."

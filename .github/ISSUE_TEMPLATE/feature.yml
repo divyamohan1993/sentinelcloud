@@ -1,0 +1,21 @@
+name: Feature request
+description: Suggest something SentinelCloud could do better.
+title: "[feat] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: motivation
+    attributes:
+      label: What is the user need?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What change would solve it?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered

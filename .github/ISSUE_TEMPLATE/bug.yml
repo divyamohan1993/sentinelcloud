@@ -1,0 +1,30 @@
+name: Bug report
+description: Something is wrong with SentinelCloud. Tell us what.
+title: "[bug] "
+labels: [bug, triage]
+body:
+  - type: input
+    id: scenario
+    attributes:
+      label: Scenario or page
+      placeholder: "/demo/cve"
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: One paragraph. Plain words.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: input
+    id: revision
+    attributes:
+      label: Cloud Run revision (if known)
+      placeholder: "sentinelcloud-00005-xyz"
