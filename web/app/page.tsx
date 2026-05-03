@@ -88,7 +88,7 @@ export default function Home() {
       >
         <div className="flex flex-wrap items-center gap-3">
           <a
-            href="https://github.com/divyamohan1993/sentinelcloud"
+            href="https://github.com/Code-with-ME-Rohit/sentinelcloud"
             target="_blank" rel="noreferrer noopener"
             className="inline-flex items-center gap-2 rounded-md border border-[var(--color-line-strong)] bg-white/[0.04] px-4 py-2.5 text-[14px] hover:bg-white/[0.08] transition-colors">
             View on GitHub

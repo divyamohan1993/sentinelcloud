@@ -18,7 +18,7 @@ export const COVER = {
   location: 'Solan, H.P., India',
   submission: 'May 2026',
   liveUrl: 'https://sentinelcloud.dmj.one',
-  repoUrl: 'https://github.com/divyamohan1993/sentinelcloud',
+  repoUrl: 'https://github.com/Code-with-ME-Rohit/sentinelcloud',
 };
 
 export const VIVA_QUESTIONS: Array<{ q: string; a: string }> = [
@@ -226,7 +226,7 @@ Actuation :  GitOps PR | Cloud SDK | Mesh toggle | WAF rule | Cache purge`,
     title: 'Questions?',
     body: [
       'Live: https://sentinelcloud.dmj.one',
-      'Source: https://github.com/divyamohan1993/sentinelcloud',
+      'Source: https://github.com/Code-with-ME-Rohit/sentinelcloud',
       'Capstone report: /report',
     ],
     footer: 'Rohit Kumar (GF202220522) - BTech CSE Cloud Computing',

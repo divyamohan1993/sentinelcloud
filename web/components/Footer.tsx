@@ -16,7 +16,7 @@ export function Footer() {
             <li><Link href="/report">Capstone report</Link></li>
             <li><Link href="/research">Research</Link></li>
             <li><Link href="/docs">Docs</Link></li>
-            <li><a href="https://github.com/divyamohan1993/sentinelcloud" target="_blank" rel="noreferrer noopener">GitHub</a></li>
+            <li><a href="https://github.com/Code-with-ME-Rohit/sentinelcloud" target="_blank" rel="noreferrer noopener">GitHub</a></li>
           </ul>
         </div>
         <div>

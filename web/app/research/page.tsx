@@ -96,9 +96,9 @@ export default function Research() {
             <div className="glass p-5">
               <h3 className="text-[15px] font-semibold mb-2">Read more</h3>
               <ul className="space-y-1.5 text-[13.5px]">
-                <li><a className="underline" href="https://github.com/divyamohan1993/sentinelcloud/blob/main/docs/CAPSTONE_REPORT.md">Full capstone report</a></li>
-                <li><a className="underline" href="https://github.com/divyamohan1993/sentinelcloud/blob/main/docs/GAP_MATRIX.md">Gap matrix</a></li>
-                <li><a className="underline" href="https://github.com/divyamohan1993/sentinelcloud/blob/main/docs/LITERATURE_REVIEW.md">Literature review</a></li>
+                <li><a className="underline" href="https://github.com/Code-with-ME-Rohit/sentinelcloud/blob/main/docs/CAPSTONE_REPORT.md">Full capstone report</a></li>
+                <li><a className="underline" href="https://github.com/Code-with-ME-Rohit/sentinelcloud/blob/main/docs/GAP_MATRIX.md">Gap matrix</a></li>
+                <li><a className="underline" href="https://github.com/Code-with-ME-Rohit/sentinelcloud/blob/main/docs/LITERATURE_REVIEW.md">Literature review</a></li>
                 <li><Link className="underline" href="/architecture">Architecture overview</Link></li>
                 <li><Link className="underline" href="/docs">Deploy / Run / Connector</Link></li>
               </ul>

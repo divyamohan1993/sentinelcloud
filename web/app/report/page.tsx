@@ -93,7 +93,7 @@ export default function ReportPage() {
             Download .docx
           </a>
           <PrintButton />
-          <a href="https://github.com/divyamohan1993/sentinelcloud/blob/main/docs/CAPSTONE_REPORT.md"
+          <a href="https://github.com/Code-with-ME-Rohit/sentinelcloud/blob/main/docs/CAPSTONE_REPORT.md"
             target="_blank" rel="noreferrer noopener"
             className="text-[12.5px] text-[var(--color-fg-2)] hover:text-white">Markdown ↗</a>
         </div>

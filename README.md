@@ -11,7 +11,7 @@
 **One closed loop. Five agents. Seven scenarios. Zero hallucinated kubectl.**
 
 - Live demo: https://sentinelcloud.dmj.one
-- Source: https://github.com/divyamohan1993/sentinelcloud
+- Source: https://github.com/Code-with-ME-Rohit/sentinelcloud
 - Capstone artifact: BTech CSE (Cloud Computing), Shoolini University, GF202220522
 - Capstone Mentor:
 
@@ -125,7 +125,7 @@ Each scenario carries a `Signal[]` time series (metrics, logs, traces, audit eve
 You need Node.js 22, npm, and a clone of this repository. No Google Cloud account required. The stub LLM keeps the demo working without any API keys.
 
 ```bash
-git clone https://github.com/divyamohan1993/sentinelcloud.git
+git clone https://github.com/Code-with-ME-Rohit/sentinelcloud.git
 cd sentinelcloud/web
 npm install
 npm run dev
@@ -381,7 +381,7 @@ If you use SentinelCloud in your own research or coursework, please cite the cap
   year         = {2026},
   month        = may,
   url          = {https://sentinelcloud.dmj.one},
-  note         = {Source code: \url{https://github.com/divyamohan1993/sentinelcloud};
+  note         = {Source code: \url{https://github.com/Code-with-ME-Rohit/sentinelcloud};
                   capstone, Shoolini University}
 }
 ```

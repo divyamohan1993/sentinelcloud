@@ -7,7 +7,7 @@ explain how to keep that bar.
 ## Quick start
 
 ```bash
-git clone https://github.com/divyamohan1993/sentinelcloud
+git clone https://github.com/Code-with-ME-Rohit/sentinelcloud
 cd sentinelcloud/web
 npm install
 npm run dev

@@ -13,7 +13,7 @@ export default function Docs() {
         <div className="grid gap-6 lg:grid-cols-3">
           <article className="glass p-5">
             <h3 className="text-[16px] font-semibold mb-2">Run locally</h3>
-            <pre className="code text-[12.5px]"><code>{`git clone https://github.com/divyamohan1993/sentinelcloud
+            <pre className="code text-[12.5px]"><code>{`git clone https://github.com/Code-with-ME-Rohit/sentinelcloud
 cd sentinelcloud/web
 npm install
 npm run dev
@@ -36,7 +36,7 @@ gcloud run deploy sentinelcloud \\
   --port 8080 \\
   --allow-unauthenticated`}</code></pre>
             <p className="mt-3 text-[13.5px] text-[var(--color-fg-2)]">
-              Cold-start is acceptable on the free tier. Domain mapping commands are in <a className="underline" href="https://github.com/divyamohan1993/sentinelcloud/blob/main/docs/DEPLOY.md">DEPLOY.md</a>.
+              Cold-start is acceptable on the free tier. Domain mapping commands are in <a className="underline" href="https://github.com/Code-with-ME-Rohit/sentinelcloud/blob/main/docs/DEPLOY.md">DEPLOY.md</a>.
             </p>
           </article>
 

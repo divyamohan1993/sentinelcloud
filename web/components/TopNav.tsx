@@ -32,7 +32,7 @@ export function TopNav() {
         </ul>
         <div className="flex items-center gap-2">
           <a
-            href="https://github.com/divyamohan1993/sentinelcloud"
+            href="https://github.com/Code-with-ME-Rohit/sentinelcloud"
             target="_blank" rel="noreferrer noopener"
             className="hidden sm:inline-flex items-center gap-1.5 text-[12.5px] text-[var(--color-fg-2)] hover:text-white px-2.5 py-1 rounded-md border border-[var(--color-line)] hover:border-[var(--color-line-strong)]"
           >GitHub</a>

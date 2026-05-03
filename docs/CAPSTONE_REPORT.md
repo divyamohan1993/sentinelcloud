@@ -783,7 +783,7 @@ The reference environment is Ubuntu 24.04 LTS with Node 20.11 LTS, pnpm 9.x, and
 A reviewer with no cloud account can reproduce every demo-mode KPI in section 6 with the following commands.
 
 ```bash
-git clone https://github.com/divyamohan1993/sentinelcloud.git
+git clone https://github.com/Code-with-ME-Rohit/sentinelcloud.git
 cd sentinelcloud/web
 pnpm install --frozen-lockfile
 SENTINEL_LLM_PROVIDER=stub pnpm run dev
@@ -996,7 +996,7 @@ This report is the formal capstone document for the BTech Computer Science and E
 **Capstone Mentor:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 **Submission Window:** May 2026
 **Live Artefact:** https://sentinelcloud.dmj.one
-**Source Repository:** https://github.com/divyamohan1993/sentinelcloud
+**Source Repository:** https://github.com/Code-with-ME-Rohit/sentinelcloud
 
 The work was carried out under the supervision of the assigned faculty mentor at the Yogananda School of AI, Computers and Data Sciences, Shoolini University. The agent contract, the orchestration state machine, the policy engine, the blast-radius calculator, the calibration gate, the episodic memory, and the deterministic scenario engine are the author's contribution. The architectural framing and the engineering disciplines applied to the build (the observability rule, the offline-first rule, the privacy rule, the testing rule) are documented in the project repository.
 
