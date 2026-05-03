@@ -5,7 +5,7 @@ type: software
 authors:
   - family-names: Kumar
     given-names: Rohit
-    affiliation: "School of Computing Science and Engineering, Galgotias University"
+    affiliation: "Yogananda School of AI, Computers and Data Sciences, Shoolini University"
     note: "BTech CSE Cloud Computing, Roll No. GF202220522"
   - family-names: Mohan
     given-names: Divya
@@ -36,4 +36,4 @@ preferred-citation:
       given-names: Divya
   year: 2026
   url: "https://sentinelcloud.dmj.one"
-  notes: "BTech CSE Cloud Computing capstone, Galgotias University, May 2026."
+  notes: "BTech CSE Cloud Computing capstone, Shoolini University, May 2026."

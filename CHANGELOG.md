@@ -64,5 +64,5 @@ First public release.
 
 ### Author
 Rohit Kumar (GF202220522), BTech CSE Cloud Computing,
-School of Computing Science and Engineering, Galgotias University.
+Yogananda School of AI, Computers and Data Sciences, Shoolini University.
 Mentor and build partner: Divya Mohan, dmj.one.

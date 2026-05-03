@@ -6,6 +6,8 @@ const links = [
   { href: '/demo', label: 'Demo' },
   { href: '/console', label: 'Console' },
   { href: '/architecture', label: 'Architecture' },
+  { href: '/pitch', label: 'Pitch' },
+  { href: '/report', label: 'Report' },
   { href: '/research', label: 'Research' },
   { href: '/docs', label: 'Docs' },
 ];

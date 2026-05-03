@@ -2,7 +2,7 @@
 
 **Author:** Rohit Kumar (Roll No. GF202220522)
 **Programme:** BTech in Computer Science and Engineering, Cloud Computing specialisation
-**Institution:** School of Computing Science and Engineering, Galgotias University, Greater Noida
+**Institution:** Yogananda School of AI, Computers and Data Sciences, Shoolini University, Solan, H.P.
 **Mentor and Build Partner:** Divya Mohan, dmj.one
 **Submission Window:** May 2026
 **Live Artifact:** https://sentinelcloud.dmj.one
@@ -987,12 +987,12 @@ The Safety agent receives this string in its prompt and is instructed to populat
 
 ## Appendix C: Author Note
 
-This report is the formal capstone document for the BTech Computer Science and Engineering programme with a Cloud Computing specialisation at the School of Computing Science and Engineering, Galgotias University, Greater Noida.
+This report is the formal capstone document for the BTech Computer Science and Engineering programme with a Cloud Computing specialisation at the Yogananda School of AI, Computers and Data Sciences, Shoolini University, Solan, H.P..
 
 **Author:** Rohit Kumar
 **Roll Number:** GF202220522
 **Programme:** BTech CSE, Cloud Computing specialisation
-**Institution:** Galgotias University, Greater Noida
+**Institution:** Shoolini University, Solan, H.P.
 **Mentor and Build Partner:** Divya Mohan, dmj.one (contact@dmj.one)
 **Submission Window:** May 2026
 **Live Artefact:** https://sentinelcloud.dmj.one
@@ -1339,6 +1339,52 @@ What is the right HITL UI for the on-call engineer? The current implementation i
 How should the constitution be governed? The current implementation supports admin writes with a Firestore signature. A governance model with a multi-signer approval process for constitution changes would be more aligned with production controls. The trade-off is operational friction versus auditability.
 
 What is the right relationship between the demo mode and the connector mode in the public showcase? The current implementation defaults to demo mode and does not expose connector mode to the public. A "Bring Your Own Cluster" path would let a visitor bind a service account and run live. The trade-off is the security risk of accepting arbitrary service-account bindings versus the demonstration value.
+
+---
+
+## Appendix L: Viva Questions (Yogananda School of AI capstone format)
+
+These ten questions follow the capstone format issued by the Yogananda School of AI, Computers and Data Sciences. Each is answered here as part of the report itself, in the order specified by the template.
+
+**Q1. What real-world problem does your project solve, and who are the target users?**
+
+Cloud incident response in 2026 is still bottlenecked on humans reading logs, debating causes, and writing fixes at 02:00. Public AIOps benchmarks (AIOpsLab, ITBench, RCAEval) report single-LLM agents resolving fewer than 40 percent of real incidents and confidently issuing wrong commands. SentinelCloud closes that loop with a six-agent debate, three gates (policy, blast radius, calibrated confidence) and an episodic memory. The target users are SREs, on-call engineers, platform engineering teams, FinOps practitioners, and security responders at any organisation running production cloud infrastructure. The public showcase serves the same audience as a free demo. Connector mode targets engineering teams that operate their own GCP, AWS, or Kubernetes estate.
+
+**Q2. Why did you choose this technology stack over other alternatives?**
+
+TypeScript on Next.js 16 gives a single-language full-stack with strict types, server-rendered React 19 components, route handlers for the API layer, and a single deployable artefact. Python was a strong contender for the agent layer because of LangChain and AutoGen, but the cost of a polyglot deploy, a second test runner, and a second observability path was not worth it for a capstone-scale project. Cloud Run was chosen for scale-to-zero economics (the demo costs cents per month idle), Vertex AI Gemini 2.5 Flash for fast and cheap reasoning that stays inside the same project, Firestore for a single managed dependency that doubles as document store and adjacency graph, and Tailwind CSS v4 with framer-motion for production polish without a design system tax. The deterministic stub fallback was a deliberate choice so the demo never goes dark when an LLM provider has a bad day.
+
+**Q3. Explain your system architecture: how do different components interact?**
+
+Three layers. The Perception layer ingests metrics, logs, traces, audit events, GitHub PR diffs, and Slack threads, normalising every signal into a typed envelope. The Reasoning layer runs a finite state machine over six agents: Analyst names the root cause, Devil's Advocate is contractually pinned to disagree, Strategist proposes one action, Tool-Call Critic validates the action against a tool-card schema, Safety reads the policy constitution, and Verifier independently predicts the outcome. The Actuation layer takes the gated action and either opens a GitOps PR, calls a cloud SDK, adjusts mesh weights, or pushes a WAF rule. Three gates sit between Reasoning and Actuation: a deterministic and semantic policy gate, a blast-radius gate (BFS over the dependency graph, capped at 70 of 100), and a confidence calibration gate that compares fused confidence against a per-risk-class threshold.
+
+**Q4. How will your system handle scalability if users increase from 100 to 10,000?**
+
+Cloud Run scales horizontally with no code change. Each request runs in its own container, so concurrent runs do not block one another. Vertex AI Gemini quotas are the practical ceiling; default capacity in dmjone is well above ten thousand requests per minute on Flash. The deterministic stub absorbs any quota exhaustion automatically. Firestore writes are per-episode, not per-step, and stay under a thousand writes per minute even at 10x scale. The SSE channel is one connection per active run; we never multiplex, so back-pressure is bounded. For peak protection, a token-bucket rate limiter at the API route caps runs per IP per minute, and the policy constitution itself caps actions per target per minute as a defence-in-depth layer. Static pages are cached at the edge, so the read-heavy path never touches the origin.
+
+**Q5. What security measures have you implemented (authentication, data protection, etc.)?**
+
+TLS 1.3 from Cloud Run, HSTS with preload, strict Content-Security-Policy, X-Content-Type-Options nosniff, Referrer-Policy strict-origin-when-cross-origin, X-Frame-Options DENY, Permissions-Policy locking down camera, microphone, and geolocation. The demo is read-only public; connector-mode write actions are gated behind an admin allowlist (`SENTINEL_ADMIN_EMAILS`) and a policy constitution that cannot be overridden by the agents. Secrets live in Google Secret Manager and are injected as environment variables at deploy time; no secret ever lands in the repository or in logs. The structured logger has a redaction pass that strips any field name matching password, secret, token, api key, authorization, or cookie. The tool registry is deny-by-default and every tool call passes a tool-card schema validation before dispatch. Three transitive CVEs are pinned out via npm overrides (postcss, uuid, @tootallnate/once). At release time, GitHub Dependabot reports zero open alerts.
+
+**Q6. What are the biggest challenges you faced during development, and how did you solve them?**
+
+First, the @google-cloud/vertexai SDK returned empty text from Cloud Run on the very first deploy, which forced a switch to direct REST against the Vertex AI publisher endpoint with google-auth-library. That move sidestepped SDK version drift and gave a single response shape across providers. Second, Gemini 2.5 Pro was too slow for a live demo at 80 to 100 seconds per run; switching defaults to gemini-2.5-flash and gemini-2.5-flash-lite cut that to 30 to 45 seconds without measurable quality loss on the seeded scenarios. Third, structured-output JSON occasionally truncated at 1024 tokens because Gemini front-loaded prose; raising token budgets to 2048 for the heavier agents and adding an automatic stub fallback on empty or malformed payloads made every run complete. Fourth, npm dependency resolution caused three Cloud Build failures in a row over picomatch and lockfile drift; pinning with overrides and switching from `npm ci` to `npm install` in the Dockerfile fixed it.
+
+**Q7. How did you test your system, and how do you ensure it is reliable?**
+
+Reproducibility is the test contract. Every scenario is a seeded fixture committed in source, so the same input produces the same orchestration. Local sanity uses `npm run typecheck`, `npm run build`, and a smoke run of the standalone server hitting `/api/health` and `/api/run/<id>/stream`. CI on every push runs typecheck, build, and security scan via GitHub Actions, and Dependabot watches for transitive vulnerabilities. The deterministic stub is the always-on fallback, so a failed real-LLM call never produces a broken page. End-to-end testing was run in a real browser via Playwright on the deployed Cloud Run revision for both the auto-act path (memleak scenario, 44 seconds wall clock) and the human-on-the-loop path (cve scenario, 14 seconds wall clock with memory recall). Each agent turn is annotated with provider, model, latency, token count, and confidence, so a regression in any one agent shows up immediately in the run report.
+
+**Q8. If your system fails in production, how will you handle debugging and recovery?**
+
+Three lines of defence. First, structured JSON logs flow into Cloud Logging with severity, timestamp, release, run id, and a sanitised payload, so any failed run is searchable in a few seconds. Second, every action is reversible by default and risk-tagged, so a misfire on the rollback action is itself reversible by re-applying the previous revision. Third, Cloud Run rollback to a known-good revision takes less than sixty seconds with `gcloud run services update-traffic --to-revisions PREVIOUS=100`. The full runbook lives in `docs/RUNBOOK.md` with a symptoms-causes-fixes table for the failure modes seen in development (5xx spikes, slow cold starts, Vertex AI 429s, Firestore quota exhaustion, missing ADC, stuck mid-run, scenario not found). The kill switch is to set `SENTINEL_FORCE_STUB=1`, which deterministically routes all reasoning through the stub and removes any dependency on external LLMs.
+
+**Q9. What are the limitations of your project, and how can it be improved further?**
+
+The evaluation set is seven seeded scenarios, not hundreds; scaling that up is a straightforward future-work item. The Process Reward Model is a heuristic, not a learned model; a fine-tuned PRM trained on per-step quality traces would tighten the calibration gate. The blast-radius calculator uses a static topology supplied by the scenario; connector mode will need a live topology builder, planned to use Cloud Service Mesh export and eBPF socket-layer discovery. Connector-mode write actions have been designed but are off by default, so the write-path is not yet exercised in production. The semantic policy gate uses an LLM judge for natural-language clauses but does not yet cache compiled rules across runs. None of these are blockers for the capstone. They are the obvious next iterations.
+
+**Q10. If you had to deploy this as a real product or startup, what would be your next steps?**
+
+In the first month, ship the connector-mode adapters for GCP and Kubernetes with read-only telemetry first and write actions gated behind a confirmation token. In the second month, build the live topology service from Cloud Service Mesh and an eBPF agent so the Reasoner is not dependent on a static fixture. In quarter two, replace the heuristic Process Reward Model with a fine-tuned classifier on a real incident corpus, and ship a comparative paper against the AIOpsLab benchmark family. In quarter three, add multi-tenant isolation, a billing meter on tokens consumed per resolved incident, and a self-serve onboarding flow that issues a least-privilege service account in three clicks. In year two, expand the actuator catalogue to AWS, Azure, and on-prem Kubernetes; ship a SOC 2 audit pack; add an SLA-backed managed offering. The product wedge is well defined: every dollar saved by reducing MTTR is a dollar a customer will share.
 
 ---
 

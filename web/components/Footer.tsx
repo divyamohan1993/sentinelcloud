@@ -12,6 +12,8 @@ export function Footer() {
           <div className="text-[var(--color-fg)] font-semibold mb-2">Project</div>
           <ul className="space-y-1.5">
             <li><Link href="/architecture">Architecture</Link></li>
+            <li><Link href="/pitch">Pitch deck</Link></li>
+            <li><Link href="/report">Capstone report</Link></li>
             <li><Link href="/research">Research</Link></li>
             <li><Link href="/docs">Docs</Link></li>
             <li><a href="https://github.com/divyamohan1993/sentinelcloud" target="_blank" rel="noreferrer noopener">GitHub</a></li>

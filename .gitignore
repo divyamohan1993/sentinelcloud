@@ -1,3 +1,11 @@
+# Browser-test scratch (Playwright MCP screenshots and snapshot YAML)
+.playwright-mcp/
+sc-*.png
+sc-*.jpeg
+sc-*.webp
+page-*.yml
+page-*.yaml
+
 node_modules/
 .next/
 out/

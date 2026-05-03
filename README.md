@@ -1,6 +1,6 @@
 <!--
   SentinelCloud
-  BTech CSE Cloud Computing Capstone, Galgotias University, GF202220522
+  BTech CSE Cloud Computing Capstone, Shoolini University, GF202220522
   Author: Rohit Kumar
   Mentor: Divya Mohan, dmj.one
   Live: https://sentinelcloud.dmj.one
@@ -12,7 +12,7 @@
 
 - Live demo: https://sentinelcloud.dmj.one
 - Source: https://github.com/divyamohan1993/sentinelcloud
-- Capstone artifact: BTech CSE (Cloud Computing), Galgotias University, GF202220522
+- Capstone artifact: BTech CSE (Cloud Computing), Shoolini University, GF202220522
 - Mentor and build partner: Divya Mohan, [dmj.one](https://dmj.one)
 
 SentinelCloud closes the SRE loop end to end: *observe, diagnose, debate, decide, act, verify, learn*. It is a multi-agent system that runs on Cloud Run, ships in one Docker image, and proves every claim with a measurable KPI. The public site runs the full pipeline on simulated-but-realistic telemetry so a reviewer can press one button and watch agents argue, gate, act, and then write their own post-mortem.
@@ -365,7 +365,7 @@ Every directory has a single owner module so the import graph stays a tree, not 
 
 ## Author and citation
 
-**Rohit Kumar** (GF202220522), BTech Computer Science and Engineering, specialisation in Cloud Computing, Galgotias University, Greater Noida, India. Capstone submission, May 2026.
+**Rohit Kumar** (GF202220522), BTech Computer Science and Engineering, specialisation in Cloud Computing, Shoolini University, Solan, H.P., India. Capstone submission, May 2026.
 
 **Mentor and build partner.** Divya Mohan, [dmj.one](https://dmj.one), `contact@dmj.one`. Architecture, multi-agent design, and production engineering review.
 
@@ -376,7 +376,7 @@ If you use SentinelCloud in your own research or coursework, please cite the cap
   author       = {Rohit Kumar and Divya Mohan},
   title        = {{SentinelCloud}: An {AI}-Driven Autonomous {DevOps} Engineer with
                   Adversarial Debate, Blast-Radius Gating, and Calibrated Confidence},
-  howpublished = {BTech CSE (Cloud Computing) Capstone, Galgotias University,
+  howpublished = {BTech CSE (Cloud Computing) Capstone, Shoolini University,
                   Roll No.\ GF202220522},
   year         = {2026},
   month        = may,
@@ -388,7 +388,7 @@ If you use SentinelCloud in your own research or coursework, please cite the cap
 
 A plain-text citation:
 
-> Rohit Kumar and Divya Mohan. *SentinelCloud: An AI-Driven Autonomous DevOps Engineer with Adversarial Debate, Blast-Radius Gating, and Calibrated Confidence.* BTech CSE (Cloud Computing) Capstone, Galgotias University, Roll No. GF202220522. May 2026. https://sentinelcloud.dmj.one
+> Rohit Kumar and Divya Mohan. *SentinelCloud: An AI-Driven Autonomous DevOps Engineer with Adversarial Debate, Blast-Radius Gating, and Calibrated Confidence.* BTech CSE (Cloud Computing) Capstone, Shoolini University, Roll No. GF202220522. May 2026. https://sentinelcloud.dmj.one
 
 ---
 
