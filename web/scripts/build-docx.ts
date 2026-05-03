@@ -159,9 +159,10 @@ function buildDocument(): Document {
   blocks.push(p(`Capstone Mentor: ____________________________`, {}));
   blocks.push(p(`Submission: ${COVER.submission}`, {}));
   blocks.push(p('', { spacing: { before: 600, after: 0 } }));
-  blocks.push(p(COVER.school, { align: AlignmentType.CENTER, bold: true }));
-  blocks.push(p(COVER.university, { align: AlignmentType.CENTER, bold: true }));
-  blocks.push(p(COVER.location, { align: AlignmentType.CENTER, bold: true }));
+  // Template uses upper-case for the institution block.
+  blocks.push(p(COVER.school.toUpperCase(), { align: AlignmentType.CENTER, bold: true }));
+  blocks.push(p(`${COVER.university.toUpperCase()}`, { align: AlignmentType.CENTER, bold: true }));
+  blocks.push(p(`${COVER.location.toUpperCase()}`, { align: AlignmentType.CENTER, bold: true }));
   blocks.push(p('', { spacing: { before: 400, after: 0 } }));
   blocks.push(p(`Live: ${COVER.liveUrl}`, { align: AlignmentType.CENTER, size: 20 }));
   blocks.push(p(`Source: ${COVER.repoUrl}`, { align: AlignmentType.CENTER, size: 20 }));
