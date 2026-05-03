@@ -87,10 +87,15 @@ export default function ReportPage() {
         <Link href="/" className="text-[12.5px] text-[var(--color-fg-2)] hover:text-white">← Back to site</Link>
         <div className="flex items-center gap-3">
           <Link href="/pitch" className="text-[12.5px] rounded-md border border-[var(--color-line-strong)] bg-white/[0.04] px-3 py-1.5 hover:bg-white/[0.08]">Pitch deck →</Link>
+          <a href="/SentinelCloud_Capstone_Report.docx" download
+            className="text-[12.5px] rounded-md bg-gradient-to-tr from-[var(--color-accent)] to-[var(--color-accent-2)] text-white px-3 py-1.5 inline-flex items-center gap-1.5">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4m-4 8h16" /></svg>
+            Download .docx
+          </a>
           <PrintButton />
           <a href="https://github.com/divyamohan1993/sentinelcloud/blob/main/docs/CAPSTONE_REPORT.md"
             target="_blank" rel="noreferrer noopener"
-            className="text-[12.5px] text-[var(--color-fg-2)] hover:text-white">Markdown source ↗</a>
+            className="text-[12.5px] text-[var(--color-fg-2)] hover:text-white">Markdown ↗</a>
         </div>
       </div>
 
@@ -130,7 +135,7 @@ export default function ReportPage() {
               <dt className="text-[var(--color-fg-3)]">Registration Number</dt><dd className="font-mono">{COVER.registrationNumber}</dd>
               <dt className="text-[var(--color-fg-3)]">Course with Specialization</dt><dd>BTech CSE - Cloud Computing</dd>
               <dt className="text-[var(--color-fg-3)]">Semester</dt><dd>{COVER.semester}</dd>
-              <dt className="text-[var(--color-fg-3)]">Capstone Mentor</dt><dd>{COVER.mentorName} ({COVER.mentorAffiliation})</dd>
+              <dt className="text-[var(--color-fg-3)]">Capstone Mentor</dt><dd className="text-[var(--color-fg-3)] italic">_________________________________</dd>
               <dt className="text-[var(--color-fg-3)]">Submission</dt><dd>{COVER.submission}</dd>
             </dl>
             <div className="mt-12 text-[13px] text-[var(--color-fg-2)] uppercase tracking-wider leading-relaxed">

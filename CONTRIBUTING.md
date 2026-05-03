@@ -48,7 +48,7 @@ present, so the demo always works offline.
 
 ## Security
 
-If you find a vulnerability, please email contact@dmj.one before opening
+If you find a vulnerability, please open a private security advisory before opening
 a public issue. See `docs/SECURITY.md` for the full disclosure policy.
 
 ## License

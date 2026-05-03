@@ -2,7 +2,7 @@
 
 **Project:** SentinelCloud
 **Author:** Rohit Kumar (BTech CSE, GF202220522)
-**Mentor / Build Partner:** Divya Mohan, dmj.one
+**Capstone Mentor:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 **Submission:** May 2026
 
 This review situates SentinelCloud against the body of work on autonomous remediation, multi-agent LLM frameworks, AIOps benchmarks, policy as code, observability, and FinOps. The aim is to be honest about what is settled, what is contested, and where the present capstone makes its modest contribution. References use a keyed `[Author Year]` form. Entries marked *uncertain* indicate that the author has read summaries or vendor write-ups but cannot vouch for a specific paper title or DOI; these are flagged rather than fabricated.

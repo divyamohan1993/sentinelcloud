@@ -2,7 +2,7 @@
   SentinelCloud
   BTech CSE Cloud Computing Capstone, Shoolini University, GF202220522
   Author: Rohit Kumar
-  Mentor: Divya Mohan, dmj.one
+  Capstone Mentor:
   Live: https://sentinelcloud.dmj.one
 -->
 
@@ -13,7 +13,7 @@
 - Live demo: https://sentinelcloud.dmj.one
 - Source: https://github.com/divyamohan1993/sentinelcloud
 - Capstone artifact: BTech CSE (Cloud Computing), Shoolini University, GF202220522
-- Mentor and build partner: Divya Mohan, [dmj.one](https://dmj.one)
+- Capstone Mentor:
 
 SentinelCloud closes the SRE loop end to end: *observe, diagnose, debate, decide, act, verify, learn*. It is a multi-agent system that runs on Cloud Run, ships in one Docker image, and proves every claim with a measurable KPI. The public site runs the full pipeline on simulated-but-realistic telemetry so a reviewer can press one button and watch agents argue, gate, act, and then write their own post-mortem.
 
@@ -367,13 +367,13 @@ Every directory has a single owner module so the import graph stays a tree, not 
 
 **Rohit Kumar** (GF202220522), BTech Computer Science and Engineering, specialisation in Cloud Computing, Shoolini University, Solan, H.P., India. Capstone submission, May 2026.
 
-**Mentor and build partner.** Divya Mohan, [dmj.one](https://dmj.one), `contact@dmj.one`. Architecture, multi-agent design, and production engineering review.
+**Capstone Mentor.** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 If you use SentinelCloud in your own research or coursework, please cite the capstone:
 
 ```bibtex
 @misc{kumar2026sentinelcloud,
-  author       = {Rohit Kumar and Divya Mohan},
+  author       = {Rohit Kumar},
   title        = {{SentinelCloud}: An {AI}-Driven Autonomous {DevOps} Engineer with
                   Adversarial Debate, Blast-Radius Gating, and Calibrated Confidence},
   howpublished = {BTech CSE (Cloud Computing) Capstone, Shoolini University,
@@ -382,13 +382,13 @@ If you use SentinelCloud in your own research or coursework, please cite the cap
   month        = may,
   url          = {https://sentinelcloud.dmj.one},
   note         = {Source code: \url{https://github.com/divyamohan1993/sentinelcloud};
-                  mentor: Divya Mohan, dmj.one}
+                  capstone, Shoolini University}
 }
 ```
 
 A plain-text citation:
 
-> Rohit Kumar and Divya Mohan. *SentinelCloud: An AI-Driven Autonomous DevOps Engineer with Adversarial Debate, Blast-Radius Gating, and Calibrated Confidence.* BTech CSE (Cloud Computing) Capstone, Shoolini University, Roll No. GF202220522. May 2026. https://sentinelcloud.dmj.one
+> Rohit Kumar. *SentinelCloud: An AI-Driven Autonomous DevOps Engineer with Adversarial Debate, Blast-Radius Gating, and Calibrated Confidence.* BTech CSE (Cloud Computing) Capstone, Shoolini University, Roll No. GF202220522. May 2026. https://sentinelcloud.dmj.one
 
 ---
 
@@ -396,7 +396,7 @@ A plain-text citation:
 
 MIT License.
 
-Copyright (c) 2026 Rohit Kumar and Divya Mohan (dmj.one).
+Copyright (c) 2026 Rohit Kumar.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -406,4 +406,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ---
 
-*Dream, manifest, and journey, together as one with [dmj.one](https://dmj.one).*
+

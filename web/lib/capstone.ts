@@ -6,12 +6,13 @@
 export const COVER = {
   title: 'SentinelCloud',
   subtitle: 'An AI-Driven Autonomous DevOps Engineer',
-  programme: 'Bachelor of Technology (CSE) — Cloud Computing Specialisation',
+  programme: 'Bachelor of Technology (CSE) - Cloud Computing Specialisation',
   studentName: 'Rohit Kumar',
   registrationNumber: 'GF202220522',
   semester: '8th Semester',
-  mentorName: 'Divya Mohan',
-  mentorAffiliation: 'dmj.one',
+  // Left blank deliberately. The student's assigned faculty mentor fills this in.
+  mentorName: '',
+  mentorAffiliation: '',
   school: 'Yogananda School of AI, Computers and Data Sciences',
   university: 'Shoolini University of Biotechnology and Management Sciences',
   location: 'Solan, H.P., India',
@@ -81,7 +82,7 @@ export const PITCH_SLIDES: PitchSlide[] = [
       'The autonomous DevOps engineer that thinks before it acts.',
       'A closed-loop multi-agent system for incident response, FinOps and shift-left security.',
     ],
-    footer: 'Rohit Kumar (GF202220522) - Mentor: Divya Mohan, dmj.one',
+    footer: 'Rohit Kumar (GF202220522)',
   },
   {
     kicker: 'The pain',
@@ -228,7 +229,7 @@ Actuation :  GitOps PR | Cloud SDK | Mesh toggle | WAF rule | Cache purge`,
       'Source: https://github.com/divyamohan1993/sentinelcloud',
       'Capstone report: /report',
     ],
-    footer: 'Rohit Kumar (GF202220522) - BTech CSE Cloud Computing - Mentor: Divya Mohan, dmj.one',
+    footer: 'Rohit Kumar (GF202220522) - BTech CSE Cloud Computing',
   },
 ];
 
@@ -248,7 +249,7 @@ export const REPORT_SECTIONS: ReportSection[] = [
     id: 'acknowledgement',
     title: 'Acknowledgement',
     body: [
-      'I extend my sincere gratitude to my mentor and build partner Divya Mohan (dmj.one) for the technical guidance, the high engineering bar and the patience that turned this idea into a deployable product. The dmj.one studio operating principles - act first, prove every claim, ship the last ten percent - are visible in every layer of this capstone.',
+      'I extend my sincere gratitude to my capstone faculty mentor for the technical guidance, the high engineering bar and the patience that turned this idea into a deployable product. The operating principles applied to this build - act first, prove every claim, ship the last ten percent - are visible in every layer of this capstone.',
       'I thank the Yogananda School of AI, Computers and Data Sciences at Shoolini University for the academic environment that supported this work, and the Cloud Computing specialisation faculty for the foundational coursework on which this project rests.',
       'Finally, I thank the open-source communities behind Next.js, Tailwind CSS, the Vertex AI client, Anthropic SDK, Firestore SDK, OpenTelemetry and Google Cloud Run. Without them this would have been a multi-quarter project rather than a capstone.',
     ],
@@ -366,7 +367,7 @@ Actuation  (web/lib/actuators)
         ['Always-on fallback', 'Deterministic scenario stub', 'Demo never goes dark.'],
         ['Vector + graph store', 'Firestore', 'Single managed dependency for memory and adjacency.'],
         ['Streaming', 'Server-Sent Events', 'Stable on Cloud Run, simpler than WebSockets.'],
-        ['Observability', 'Cloud Logging structured JSON', 'Required by the dmj.one observability rule.'],
+        ['Observability', 'Cloud Logging structured JSON', 'Required by the project observability rule.'],
         ['Auth (admin)', 'Email allowlist + Google sign-in (gated)', 'Demo is read-only public; admin-only for connector mode.'],
         ['IaC', 'Dockerfile + gcloud run deploy --source', 'Reproducible without Terraform overhead at this scope.'],
         ['Secrets', 'Secret Manager', 'No secrets in repo, no secrets in logs.'],

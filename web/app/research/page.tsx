@@ -70,9 +70,9 @@ export default function Research() {
             <h3 className="text-[18px] font-semibold mt-6 mb-2">Cite this work</h3>
             <pre className="code text-[12px] whitespace-pre-wrap"><code>{`@misc{kumar2026sentinelcloud,
   title  = {SentinelCloud: A Closed-Loop Multi-Agent System for Autonomous Cloud DevOps},
-  author = {Kumar, Rohit and Mohan, Divya},
+  author = {Kumar, Rohit},
   year   = {2026},
-  note   = {BTech CSE Cloud Computing capstone, Galgotias University},
+  note   = {BTech CSE Cloud Computing capstone, Shoolini University},
   url    = {https://sentinelcloud.dmj.one}
 }`}</code></pre>
           </article>

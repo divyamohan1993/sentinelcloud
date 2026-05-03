@@ -1,8 +1,8 @@
 # SentinelCloud Security Posture
 
 Service: `sentinelcloud`. Production URL: https://sentinelcloud.dmj.one.
-Owner: Rohit Kumar. Mentor and security contact: Divya Mohan, dmj.one.
-Disclosure address: security@dmj.one.
+Owner: Rohit Kumar. Security contact: open a private GitHub security advisory.
+Disclosure: GitHub Security Advisories on the repository.
 
 This page is the contract a reviewer or auditor reads to decide whether the service is safe to point at real telemetry. Every claim points to a concrete file, command, or policy.
 
@@ -135,13 +135,13 @@ curl -sSI https://sentinelcloud.dmj.one/ | grep -Ei 'strict-transport|content-se
 - **Right to erasure.** Admin endpoint `POST /api/admin/users/{uid}/erase` deletes user records from Firestore plus matching log entries via Cloud Logging exclusion. Backups follow a 30-day rolling window; erasure propagates within that window.
 - **Consent.** No analytics cookies. No third-party trackers. A single first-party `__sentinel_session` cookie holds the session id; `SameSite=Lax`, `Secure`, `HttpOnly`. Documented in the privacy notice on `/`.
 - **Children.** The product is not directed at children under 18. No targeted features for that group.
-- **DPO contact.** privacy@dmj.one. Response within 7 working days, per DPDP Act expectations.
+- **DPO contact.** Open a GitHub issue tagged privacy. Response within 7 working days, per DPDP Act expectations.
 
 ---
 
 ## Disclosure policy
 
-Found something? Email **security@dmj.one**. PGP key on the same address.
+Found something? Open a private GitHub security advisory on the repository.
 
 - We acknowledge within 48 hours.
 - We give a fix ETA within 5 working days.

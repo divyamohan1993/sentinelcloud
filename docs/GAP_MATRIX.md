@@ -2,7 +2,7 @@
 
 **Project:** SentinelCloud
 **Author:** Rohit Kumar (BTech CSE, GF202220522)
-**Mentor / Build Partner:** Divya Mohan, dmj.one
+**Capstone Mentor:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 **Submission:** May 2026
 
 This matrix walks through the twelve research gaps named in `ARCHITECTURE.md` section 1, and shows which SentinelCloud module closes each one. Every entry cites a concrete file and line so a reviewer can audit the claim against running code.

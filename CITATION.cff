@@ -7,10 +7,6 @@ authors:
     given-names: Rohit
     affiliation: "Yogananda School of AI, Computers and Data Sciences, Shoolini University"
     note: "BTech CSE Cloud Computing, Roll No. GF202220522"
-  - family-names: Mohan
-    given-names: Divya
-    affiliation: "dmj.one"
-    email: contact@dmj.one
 repository-code: "https://github.com/divyamohan1993/sentinelcloud"
 url: "https://sentinelcloud.dmj.one"
 license: MIT
@@ -32,8 +28,6 @@ preferred-citation:
   authors:
     - family-names: Kumar
       given-names: Rohit
-    - family-names: Mohan
-      given-names: Divya
   year: 2026
   url: "https://sentinelcloud.dmj.one"
   notes: "BTech CSE Cloud Computing capstone, Shoolini University, May 2026."

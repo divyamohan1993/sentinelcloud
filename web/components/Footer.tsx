@@ -28,11 +28,12 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <div className="text-[var(--color-fg)] font-semibold mb-2">Mentor</div>
+          <div className="text-[var(--color-fg)] font-semibold mb-2">Capstone</div>
           <ul className="space-y-1.5">
-            <li>Divya Mohan</li>
-            <li><a href="https://dmj.one" target="_blank" rel="noreferrer noopener">dmj.one</a></li>
-            <li>contact@dmj.one</li>
+            <li>BTech CSE Cloud Computing</li>
+            <li>Yogananda School of AI</li>
+            <li>Shoolini University</li>
+            <li>May 2026</li>
           </ul>
         </div>
       </div>

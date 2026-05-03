@@ -12,9 +12,9 @@ export const metadata: Metadata = {
   description:
     'A closed-loop multi-agent system that observes, debates, decides, acts and learns, turning incident response, FinOps and shift-left security into measured KPIs.',
   applicationName: 'SentinelCloud',
-  authors: [{ name: 'Rohit Kumar' }, { name: 'Divya Mohan' }],
+  authors: [{ name: 'Rohit Kumar' }],
   creator: 'Rohit Kumar',
-  publisher: 'dmj.one',
+  publisher: 'Rohit Kumar',
   keywords: [
     'AIOps', 'autonomous DevOps', 'multi-agent', 'incident response',
     'FinOps', 'cloud security', 'capstone', 'BTech CSE',
@@ -25,9 +25,9 @@ export const metadata: Metadata = {
     siteName: 'SentinelCloud',
     title: 'SentinelCloud, AI-Driven Autonomous DevOps Engineer',
     description:
-      'Multi-agent debate, blast-radius gating, semantic policy, episodic memory. Capstone build by Rohit Kumar with Divya Mohan, dmj.one.',
+      'Multi-agent debate, blast-radius gating, semantic policy, episodic memory. BTech CSE capstone build by Rohit Kumar.',
   },
-  twitter: { card: 'summary_large_image', title: 'SentinelCloud', creator: '@dmj_one' },
+  twitter: { card: 'summary_large_image', title: 'SentinelCloud' },
   robots: { index: true, follow: true },
   icons: {
     icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
