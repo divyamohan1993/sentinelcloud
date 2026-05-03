@@ -6,7 +6,7 @@
 **Capstone Mentor:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 **Submission Window:** May 2026
 **Live Artifact:** https://sentinelcloud.dmj.one
-**Source of Truth:** `/mnt/experiments/rohit-kumar-capstone/sentinelcloud`
+**Source of Truth:** `/mnt/experiments/rohit-kumar-capstone`
 **Version:** 1.0
 
 ---
@@ -776,7 +776,7 @@ This appendix is the runbook a reviewer should follow to reproduce every claim i
 
 ### A.1 Environment
 
-The reference environment is Ubuntu 24.04 LTS with Node 20.11 LTS, pnpm 9.x, and the Google Cloud SDK 472.x. The repository is `/mnt/experiments/rohit-kumar-capstone/sentinelcloud`. The reproducibility tag for this report is `report-1.0` (to be applied at the time of submission).
+The reference environment is Ubuntu 24.04 LTS with Node 20.11 LTS, pnpm 9.x, and the Google Cloud SDK 472.x. The repository is `/mnt/experiments/rohit-kumar-capstone`. The reproducibility tag for this report is `report-1.0` (to be applied at the time of submission).
 
 ### A.2 Stub-Mode Reproduction (No Cloud Account Required)
 
