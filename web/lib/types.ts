@@ -97,6 +97,8 @@ export interface AgentTurn {
   latencyMs: number;
   tokensIn: number;
   tokensOut: number;
+  provider?: 'vertex' | 'anthropic' | 'stub';
+  model?: string;
   ts: number;
 }
 

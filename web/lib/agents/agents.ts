@@ -26,6 +26,8 @@ function turn(partial: Partial<AgentTurn> & Pick<AgentTurn, 'agent' | 'runId'>):
     latencyMs: partial.latencyMs ?? 0,
     tokensIn: partial.tokensIn ?? 0,
     tokensOut: partial.tokensOut ?? 0,
+    provider: partial.provider,
+    model: partial.model,
     ts: partial.ts ?? Date.now(),
   };
 }
@@ -45,7 +47,7 @@ export async function runAnalyst(runId: string, signals: Signal[], topology: unk
     thought: j.thought ?? '',
     evidence: Array.isArray(j.evidence) ? j.evidence : [],
     confidence: clamp01(j.confidence),
-    latencyMs: r.latencyMs, tokensIn: r.tokensIn, tokensOut: r.tokensOut,
+    latencyMs: r.latencyMs, tokensIn: r.tokensIn, tokensOut: r.tokensOut, provider: r.provider, model: r.model,
   });
 }
 
@@ -59,7 +61,7 @@ export async function runDevil(runId: string, signals: Signal[], analystThought:
     dissent: j.dissent ?? j.alternativeHypothesis ?? '',
     evidence: Array.isArray(j.evidenceForAlternative) ? j.evidenceForAlternative : [],
     confidence: clamp01(j.confidence),
-    latencyMs: r.latencyMs, tokensIn: r.tokensIn, tokensOut: r.tokensOut,
+    latencyMs: r.latencyMs, tokensIn: r.tokensIn, tokensOut: r.tokensOut, provider: r.provider, model: r.model,
   });
 }
 
@@ -74,7 +76,7 @@ export async function runSafety(
     thought: j.thought ?? '',
     policyViolations: Array.isArray(j.policyViolations) ? j.policyViolations : [],
     confidence: clamp01(j.confidence),
-    latencyMs: r.latencyMs, tokensIn: r.tokensIn, tokensOut: r.tokensOut,
+    latencyMs: r.latencyMs, tokensIn: r.tokensIn, tokensOut: r.tokensOut, provider: r.provider, model: r.model,
   });
 }
 
@@ -99,7 +101,7 @@ export async function runStrategist(
     proposal,
     costDeltaUsd: proposal?.estimatedCostUsdDelta,
     confidence: clamp01(j.confidence),
-    latencyMs: r.latencyMs, tokensIn: r.tokensIn, tokensOut: r.tokensOut,
+    latencyMs: r.latencyMs, tokensIn: r.tokensIn, tokensOut: r.tokensOut, provider: r.provider, model: r.model,
   });
 }
 
@@ -111,7 +113,7 @@ export async function runVerifier(runId: string, proposal: Action, signals: Sign
     runId, agent: 'verifier',
     thought: `${j.thought ?? ''} | predicted=${JSON.stringify(j.predictedKpis ?? {})} | disagreement=${j.disagreementPct ?? '?'}%`,
     confidence: clamp01(j.confidence),
-    latencyMs: r.latencyMs, tokensIn: r.tokensIn, tokensOut: r.tokensOut,
+    latencyMs: r.latencyMs, tokensIn: r.tokensIn, tokensOut: r.tokensOut, provider: r.provider, model: r.model,
   });
 }
 
@@ -124,7 +126,7 @@ export async function runCritic(runId: string, proposal: Action, toolCards: stri
     thought: j.thought ?? '',
     policyViolations: Array.isArray(j.violations) ? j.violations : [],
     confidence: clamp01(j.confidence),
-    latencyMs: r.latencyMs, tokensIn: r.tokensIn, tokensOut: r.tokensOut,
+    latencyMs: r.latencyMs, tokensIn: r.tokensIn, tokensOut: r.tokensOut, provider: r.provider, model: r.model,
   });
 }
 
@@ -137,7 +139,7 @@ export async function runNarrator(runId: string, story: string): Promise<AgentTu
     runId, agent: 'narrator',
     thought: j.summary ?? '',
     confidence: clamp01(j.confidence ?? 0.8),
-    latencyMs: r.latencyMs, tokensIn: r.tokensIn, tokensOut: r.tokensOut,
+    latencyMs: r.latencyMs, tokensIn: r.tokensIn, tokensOut: r.tokensOut, provider: r.provider, model: r.model,
   });
 }
 

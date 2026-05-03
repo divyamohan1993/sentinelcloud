@@ -29,13 +29,25 @@ export type RunEvent =
   | { type: 'done'; report: RunReport }
   | { type: 'error'; message: string };
 
+// Pacing makes phase events visible to the human watching the screen.
+// Real LLM calls already take 2–10 s each; this is the floor so the stub
+// path also has breathing room. Disabled when a real provider is in use,
+// since model latency is the natural pacer.
+const PACE_PHASE_MS = Number(process.env.SENTINEL_PACE_PHASE_MS || 600);
+const PACE_TURN_MS  = Number(process.env.SENTINEL_PACE_TURN_MS  || 350);
+const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
+
 export async function* orchestrate(scenario: Scenario): AsyncGenerator<RunEvent, void, void> {
   const runId = `r_${nanoid(12)}`;
   const startedAt = Date.now();
   const turns: AgentTurn[] = [];
   const signals = [...scenario.signals].sort((a, b) => a.ts - b.ts);
+  let stubInUse = false;
 
   const emit = <T extends RunEvent>(e: T) => e;
+  const phasePace = async () => { if (stubInUse && PACE_PHASE_MS > 0) await sleep(PACE_PHASE_MS); };
+  const turnPace  = async () => { if (stubInUse && PACE_TURN_MS  > 0) await sleep(PACE_TURN_MS); };
+  const trackProvider = (t: AgentTurn) => { if (t.provider === 'stub') stubInUse = true; };
 
   try {
     yield emit({ type: 'phase', phase: 'ingest' });
@@ -45,16 +57,25 @@ export async function* orchestrate(scenario: Scenario): AsyncGenerator<RunEvent,
     yield emit({ type: 'memory', episodeIds: recalled.map(r => r.id) });
 
     yield emit({ type: 'phase', phase: 'analyze' });
+    await phasePace();
     const analyst = await runAnalyst(runId, signals, scenario.topology);
+    trackProvider(analyst);
     turns.push(analyst); yield emit({ type: 'turn', turn: analyst });
+    await turnPace();
 
     yield emit({ type: 'phase', phase: 'debate' });
+    await phasePace();
     const devil = await runDevil(runId, signals, analyst.thought);
+    trackProvider(devil);
     turns.push(devil); yield emit({ type: 'turn', turn: devil });
+    await turnPace();
 
     yield emit({ type: 'phase', phase: 'strategize' });
+    await phasePace();
     const strategist = await runStrategist(runId, signals, analyst.thought, devil.dissent || '');
+    trackProvider(strategist);
     turns.push(strategist); yield emit({ type: 'turn', turn: strategist });
+    await turnPace();
 
     if (!strategist.proposal) {
       yield emit({ type: 'error', message: 'Strategist returned no proposal' });
@@ -66,16 +87,24 @@ export async function* orchestrate(scenario: Scenario): AsyncGenerator<RunEvent,
     const blastTurn: AgentTurn = { ...strategist, id: `t_${nanoid(10)}`, blastRadius: blast };
     turns.push(blastTurn);
     yield emit({ type: 'blast', score: blast });
+    await turnPace();
 
     yield emit({ type: 'phase', phase: 'verify' });
+    await phasePace();
     const critic = await runCritic(runId, action, toolCardsAsText());
+    trackProvider(critic);
     turns.push(critic); yield emit({ type: 'turn', turn: critic });
+    await turnPace();
 
     yield emit({ type: 'phase', phase: 'safety' });
+    await phasePace();
     const safety = await runSafety(runId, action, constitutionToText(DEFAULT_CONSTITUTION));
+    trackProvider(safety);
     turns.push(safety); yield emit({ type: 'turn', turn: safety });
+    await turnPace();
 
     yield emit({ type: 'phase', phase: 'policy_gate' });
+    await phasePace();
     const det = checkDeterministic(action, DEFAULT_CONSTITUTION);
     const allViolations = [
       ...det.violations,
@@ -84,6 +113,7 @@ export async function* orchestrate(scenario: Scenario): AsyncGenerator<RunEvent,
     ];
     const policyAllowed = det.allowed && (safety.policyViolations || []).length === 0;
     yield emit({ type: 'policy', allowed: policyAllowed, violations: allViolations });
+    await turnPace();
 
     if (!policyAllowed) {
       action = {
@@ -98,12 +128,16 @@ export async function* orchestrate(scenario: Scenario): AsyncGenerator<RunEvent,
     }
 
     const verifier = await runVerifier(runId, action, signals);
+    trackProvider(verifier);
     turns.push(verifier); yield emit({ type: 'turn', turn: verifier });
+    await turnPace();
 
     yield emit({ type: 'phase', phase: 'confidence_gate' });
+    await phasePace();
     const fused = fuseConfidence(turns);
     const gate = shouldAutoAct(action, fused, blast);
     yield emit({ type: 'gate', auto: gate.auto, threshold: gate.threshold, reason: gate.reason, fusedConfidence: fused });
+    await turnPace();
 
     yield emit({ type: 'action', action });
 
@@ -111,18 +145,23 @@ export async function* orchestrate(scenario: Scenario): AsyncGenerator<RunEvent,
     let actuationOk = true;
     if (gate.auto && policyAllowed) {
       yield emit({ type: 'phase', phase: 'act' });
+      await phasePace();
       const res = await actuate(action);
       actuationOk = res.ok;
       yield emit({ type: 'actuated', ok: res.ok, details: res.details, artifact: res.artifact });
       outcome = res.ok ? 'auto_resolved' : 'failed';
     } else {
       yield emit({ type: 'phase', phase: 'act' });
+      await phasePace();
       yield emit({ type: 'actuated', ok: true, details: 'Paused for human review (HITL)' });
       outcome = 'hitl_required';
     }
+    await turnPace();
 
     yield emit({ type: 'phase', phase: 'verify_outcome' });
+    await phasePace();
     yield emit({ type: 'phase', phase: 'learn' });
+    await phasePace();
 
     const finishedAt = Date.now();
     const mttrSec = Math.max(1, Math.round((finishedAt - startedAt) / 1000));

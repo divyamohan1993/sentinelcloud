@@ -1,6 +1,10 @@
 // LLM gateway with three providers and a deterministic local stub.
 // Order of preference: Vertex (Gemini) → Anthropic (Claude) → Stub.
 // All callers go through this module so we can swap models from one place.
+//
+// Vertex AI is called via direct REST against the publishers/google/models
+// endpoint, using Application Default Credentials from google-auth-library.
+// This sidesteps SDK version drift and gives us a single response shape.
 
 import { env } from '../env';
 import { log } from '../telemetry/logger';
@@ -27,20 +31,97 @@ export interface LlmResult {
 
 export type ProviderId = 'vertex' | 'anthropic' | 'stub';
 
-let vertexClient: any = null;
+const VERTEX_LOCATION = process.env.SENTINEL_VERTEX_LOCATION || 'us-central1';
+
+let vertexAuth: any = null;
+let vertexAuthBroken = false;
 let anthropicClient: any = null;
 
-async function getVertex() {
-  if (vertexClient !== null) return vertexClient;
-  try {
-    const mod = await import('@google-cloud/vertexai');
-    vertexClient = new mod.VertexAI({ project: env.PROJECT_ID, location: 'us-central1' });
-    return vertexClient;
-  } catch (err) {
-    log.warn('vertex_init_failed', { err: String(err) });
-    vertexClient = false;
-    return false;
+async function getVertexAccessToken(): Promise<string | null> {
+  if (vertexAuthBroken) return null;
+  if (!vertexAuth) {
+    try {
+      const mod = await import('google-auth-library');
+      vertexAuth = new mod.GoogleAuth({
+        scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+      });
+    } catch (err) {
+      log.warn('vertex_auth_init_failed', { err: String(err) });
+      vertexAuthBroken = true;
+      return null;
+    }
   }
+  try {
+    const client = await vertexAuth.getClient();
+    const tokenRes = await client.getAccessToken();
+    return tokenRes?.token || null;
+  } catch (err) {
+    log.warn('vertex_auth_token_failed', { err: String(err) });
+    vertexAuthBroken = true;
+    return null;
+  }
+}
+
+async function callVertex(opts: LlmCallOpts): Promise<LlmResult> {
+  const t0 = Date.now();
+  const token = await getVertexAccessToken();
+  if (!token) throw new Error('vertex_no_token');
+  const modelName = opts.fast ? env.GEMINI_FAST_MODEL : env.GEMINI_MODEL;
+  const url = `https://${VERTEX_LOCATION}-aiplatform.googleapis.com/v1/projects/${env.PROJECT_ID}/locations/${VERTEX_LOCATION}/publishers/google/models/${modelName}:generateContent`;
+
+  const body: any = {
+    systemInstruction: { role: 'system', parts: [{ text: opts.system }] },
+    contents: [{ role: 'user', parts: [{ text: opts.user }] }],
+    generationConfig: {
+      temperature: opts.temperature ?? 0.4,
+      maxOutputTokens: opts.maxOutputTokens ?? 1024,
+      responseMimeType: opts.json ? 'application/json' : 'text/plain',
+    },
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' },
+    ],
+  };
+
+  const ctrl = new AbortController();
+  const timeout = setTimeout(() => ctrl.abort(), 45_000);
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+      signal: ctrl.signal,
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+
+  if (!res.ok) {
+    const errBody = await res.text().catch(() => '');
+    throw new Error(`vertex_http_${res.status}: ${errBody.slice(0, 200)}`);
+  }
+  const json: any = await res.json();
+  const candidate = json?.candidates?.[0];
+  const finish = candidate?.finishReason as string | undefined;
+  const text = candidate?.content?.parts?.map((p: any) => p?.text || '').join('') || '';
+  const usage = json?.usageMetadata || {};
+  if (!text && finish && finish !== 'STOP') {
+    throw new Error(`vertex_empty_finish_${finish}`);
+  }
+  return {
+    text,
+    provider: 'vertex',
+    model: modelName,
+    latencyMs: Date.now() - t0,
+    tokensIn: usage.promptTokenCount ?? 0,
+    tokensOut: usage.candidatesTokenCount ?? 0,
+  };
 }
 
 async function getAnthropic() {
@@ -55,35 +136,6 @@ async function getAnthropic() {
     anthropicClient = false;
     return false;
   }
-}
-
-async function callVertex(opts: LlmCallOpts): Promise<LlmResult> {
-  const t0 = Date.now();
-  const client = await getVertex();
-  if (!client) throw new Error('vertex_unavailable');
-  const modelName = opts.fast ? env.GEMINI_FAST_MODEL : env.GEMINI_MODEL;
-  const model = client.getGenerativeModel({
-    model: modelName,
-    generationConfig: {
-      temperature: opts.temperature ?? 0.4,
-      maxOutputTokens: opts.maxOutputTokens ?? 1024,
-      responseMimeType: opts.json ? 'application/json' : 'text/plain',
-    },
-    systemInstruction: { role: 'system', parts: [{ text: opts.system }] },
-  });
-  const res = await model.generateContent({
-    contents: [{ role: 'user', parts: [{ text: opts.user }] }],
-  });
-  const text = res?.response?.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
-  const usage = res?.response?.usageMetadata ?? {};
-  return {
-    text,
-    provider: 'vertex',
-    model: modelName,
-    latencyMs: Date.now() - t0,
-    tokensIn: usage.promptTokenCount ?? 0,
-    tokensOut: usage.candidatesTokenCount ?? 0,
-  };
 }
 
 async function callAnthropic(opts: LlmCallOpts): Promise<LlmResult> {
@@ -130,7 +182,7 @@ function callStub(opts: LlmCallOpts): LlmResult {
 type StubRole = 'analyst' | 'devil' | 'safety' | 'strategist' | 'verifier' | 'critic' | 'narrator';
 
 function detectRole(systemPrompt: string): StubRole {
-  // Match the "You are the X agent" / "X AGENT" line, not bare keyword mentions
+  // Match the "You are the X agent" line, not bare keyword mentions
   // (every prompt may name other agents in passing).
   const s = systemPrompt.toUpperCase();
   if (/YOU ARE THE NARRATOR/.test(s) || /\bNARRATOR\b/.test(s.split('\n')[1] || s)) return 'narrator';
@@ -140,7 +192,6 @@ function detectRole(systemPrompt: string): StubRole {
   if (/YOU ARE THE STRATEGIST/.test(s)) return 'strategist';
   if (/YOU ARE THE TOOL-CALL CRITIC/.test(s) || /YOU ARE THE CRITIC/.test(s)) return 'critic';
   if (/YOU ARE THE ANALYST/.test(s)) return 'analyst';
-  // Fallback to keyword order with verifier/critic before strategist.
   if (s.includes('NARRATOR')) return 'narrator';
   if (s.includes("DEVIL'S ADVOCATE")) return 'devil';
   if (s.includes('SAFETY / COMPLIANCE')) return 'safety';
@@ -155,10 +206,6 @@ type ScenarioCtx =
   | 'memleak' | 'dbpool' | 'cve' | 'finops' | 'drift' | 'cascading' | 'ddos' | 'generic';
 
 function sniffScenario(userPrompt: string): ScenarioCtx {
-  // Order matters: most-specific tokens first, since the topology JSON repeats
-  // every service name across every scenario. Title-based markers (used by the
-  // narrator prompt) come ahead of telemetry markers so any phase recognises
-  // the scenario.
   const u = userPrompt.toLowerCase();
   if (u.includes('cve-2026') || u.includes('libcrypto-flex')) return 'cve';
   if (u.includes('zero-day') || u.includes('libcrypto')) return 'cve';
@@ -172,9 +219,7 @@ function sniffScenario(userPrompt: string): ScenarioCtx {
 }
 
 function stubProse(role: StubRole, ctx: ScenarioCtx, seed: number): string {
-  if (role === 'narrator') {
-    return narratorByCtx(ctx);
-  }
+  if (role === 'narrator') return narratorByCtx(ctx);
   return 'Acknowledged. Drafting an evidence-grounded response based on available signals.';
 }
 
@@ -202,7 +247,7 @@ function narratorByCtx(ctx: ScenarioCtx): string {
 function stubJson(role: StubRole, ctx: ScenarioCtx, seed: number): unknown {
   if (role === 'analyst') return analystByCtx(ctx, seed);
   if (role === 'devil')   return devilByCtx(ctx, seed);
-  if (role === 'safety')  return { thought: 'Replicas remain ≥ 3; constitution clauses applicable returned no violations.', policyViolations: [], blastRadiusJustification: 'within tolerance for risk class', confidence: 0.9 };
+  if (role === 'safety')  return { thought: 'Replicas remain >= 3; constitution clauses applicable returned no violations.', policyViolations: [], blastRadiusJustification: 'within tolerance for risk class', confidence: 0.9 };
   if (role === 'strategist') return strategistByCtx(ctx);
   if (role === 'verifier')   return verifierByCtx(ctx);
   if (role === 'critic')     return { thought: 'Tool kind matches registry; params satisfy schema.', valid: true, violations: [], confidence: 0.95 };
@@ -376,7 +421,6 @@ export async function llm(opts: LlmCallOpts): Promise<LlmResult> {
 
 export function safeJson<T = unknown>(text: string): T | null {
   if (!text) return null;
-  // Try direct parse; fall back to extracting first JSON block.
   try { return JSON.parse(text) as T; } catch {}
   const m = text.match(/\{[\s\S]*\}|\[[\s\S]*\]/);
   if (!m) return null;

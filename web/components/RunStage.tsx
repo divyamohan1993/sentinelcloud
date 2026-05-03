@@ -208,10 +208,24 @@ function TurnCard({ turn }: { turn: any }) {
     critic: 'border-[#aab1c5]/30 text-[#aab1c5]',
     narrator: 'border-white/30 text-white',
   };
+  const providerTone: Record<string, string> = {
+    vertex: 'border-[#5b8cff]/40 text-[#5b8cff]',
+    anthropic: 'border-[#fb923c]/40 text-[#fb923c]',
+    stub: 'border-[var(--color-fg-3)]/40 text-[var(--color-fg-3)]',
+  };
+  const provider = turn.provider as string | undefined;
+  const model = turn.model as string | undefined;
   return (
     <div className="glass p-3.5">
-      <div className="flex items-center justify-between mb-1.5">
-        <div className={`text-[11px] uppercase tracking-wider px-2 py-0.5 rounded border ${tone[role] || ''}`}>{role}</div>
+      <div className="flex items-center justify-between mb-1.5 gap-2">
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <div className={`text-[11px] uppercase tracking-wider px-2 py-0.5 rounded border ${tone[role] || ''}`}>{role}</div>
+          {provider && (
+            <div className={`text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded border ${providerTone[provider] || ''}`} title={model || provider}>
+              {provider === 'vertex' ? 'gemini' : provider === 'anthropic' ? 'claude' : 'stub'}
+            </div>
+          )}
+        </div>
         <div className="text-[11px] text-[var(--color-fg-3)] font-mono tabular-nums">
           conf {turn.confidence?.toFixed?.(2) ?? '-'} · {turn.latencyMs ?? 0}ms
         </div>
